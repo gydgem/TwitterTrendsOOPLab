@@ -1,0 +1,14 @@
+//
+// Created by gydgem on 2/21/2025.
+//
+
+#ifndef TWITTERTRENDSOOPLAB_JSONMAPPARSER_H
+#define TWITTERTRENDSOOPLAB_JSONMAPPARSER_H
+
+
+class JSONMapParser {
+
+};
+
+
+#endif //TWITTERTRENDSOOPLAB_JSONMAPPARSER_H
