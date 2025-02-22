@@ -4,12 +4,19 @@ set(CMAKE_CXX_STANDARD 20)
 project(TwitterTrendsOOPLab)
 set(PROJECT_NAME TwitterTrendsOOPLab)
 
-add_executable(${PROJECT_NAME} main.cpp
-        Parsers/JSONMapParser.cpp
-        Parsers/JSONMapParser.h)
+include_directories(include)
+
+# Добавляем исполняемый файл
+add_executable(${PROJECT_NAME}
+        main.cpp
+        Parsers/ParsersJSON.cpp
+        Parsers/ParsersJSON.h
+        Parsers/State.cpp
+        Parsers/State.h
+        Parsers/Polygon.h
+)
 
 # OpenCV
-set(OPENCV_USE_STATIC_LIBS OFF)
 find_package(OpenCV REQUIRED)
 
 if (OpenCV_FOUND)
@@ -20,15 +27,15 @@ else ()
 endif ()
 
 # Boost
-set(BOOST_USE_STATIC_LIBS OFF)
-find_package(Boost REQUIRED COMPONENTS system filesystem)
+#find_package(Boost 1.87.0 REQUIRED COMPONENTS json)
+find_package(Boost REQUIRED COMPONENTS json)  # Указываем, что нужен boost::json
 
 if (Boost_FOUND)
-    include_directories(${Boost_INCLUDE_DIRS})
-    target_link_libraries(${PROJECT_NAME} PRIVATE ${Boost_LIBRARIES})
+    target_include_directories(${PROJECT_NAME} PRIVATE ${Boost_INCLUDE_DIRS})
+    target_link_libraries(${PROJECT_NAME} PRIVATE Boost::json)  # Линкуем boost::json
 else ()
     message(FATAL_ERROR "Boost not found")
 endif ()
 
-# resources
+# Копирование ресурсов
 file(COPY resources DESTINATION ${CMAKE_BINARY_DIR}/resources)
