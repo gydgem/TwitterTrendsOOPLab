@@ -24,7 +24,7 @@ namespace Render {
                          const std::vector<Utils::Polygon2i> &polygons);
 
     std::vector<Utils::Polygon2i>
-    changingThePolygon(const stdc::vector<Utils::Polygon2d> &polygons,
+    changingThePolygon(const std::vector<Utils::Polygon2d> &polygons,
                        int rows,
                        int cols);
 
