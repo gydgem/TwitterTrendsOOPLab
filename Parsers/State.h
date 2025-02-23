@@ -8,15 +8,15 @@
 
 #include <string>
 #include <opencv2/opencv.hpp>
-#include "Polygon.h"
+#include "../Utils/Polygon.h"
 
 struct State {
     std::string name;
-    std::vector<Polygon2d> polygons;
+    std::vector<Utils::Polygon2d> polygons;
 
     State() = default;
 
-    State(std::string name, std::vector<Polygon2d> polygons);
+    State(std::string name, std::vector<Utils::Polygon2d> polygons);
 };
 
 

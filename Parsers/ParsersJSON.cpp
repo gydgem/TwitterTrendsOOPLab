@@ -6,8 +6,8 @@
 
 namespace parser::json {
     namespace {
-        Polygon2d parseStatePolygon2d(const json::array &value) {
-            Polygon2d res;
+        Utils::Polygon2d parseStatePolygon2d(const json::array &value) {
+            Utils::Polygon2d res;
 
             for (const auto &it: value) {
                 if (!it.is_array() || it.as_array().size() != 2) {
@@ -27,8 +27,7 @@ namespace parser::json {
                 res.emplace_back(point[0], point[1]);
             }
 
-            return
-                    res;
+            return res;
         }
     }
 

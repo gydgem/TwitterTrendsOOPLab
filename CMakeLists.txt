@@ -9,11 +9,14 @@ include_directories(include)
 # Добавляем исполняемый файл
 add_executable(${PROJECT_NAME}
         main.cpp
-        Parsers/ParsersJSON.cpp
-        Parsers/ParsersJSON.h
-        Parsers/State.cpp
-        Parsers/State.h
-        Parsers/Polygon.h
+        parsers/ParsersJSON.cpp
+        parsers/ParsersJSON.h
+        parsers/State.cpp
+        parsers/State.h
+        utils/Polygon.h
+        include/csv2.hpp
+        renders/Render.cpp
+        renders/Render.h
 )
 
 # OpenCV
