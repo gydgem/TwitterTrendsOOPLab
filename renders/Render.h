@@ -6,28 +6,28 @@
 #include <opencv2/core/mat.hpp>
 #include <opencv2/imgproc.hpp>
 #include <opencv2/highgui.hpp>
-#include "../utils/Polygon.h"
+#include "../entity/Polygon.h"
 
-namespace Render {
+namespace render {
     void draw(cv::Mat &image,
-              const Utils::Polygon2i &polygon);
+              const entity::Polygon2i &polygon);
 
     void draw(cv::Mat &image,
-              const std::vector<Utils::Polygon2i> &polygons);
+              const std::vector<entity::Polygon2i> &polygons);
 
     void drawInTheCenter(cv::Mat &image,
                          const std::string &name,
-                         const Utils::Polygon2i &polygon);
+                         const entity::Polygon2i &polygon);
 
     void drawInTheCenter(cv::Mat &image,
                          const std::vector<std::string> &names,
-                         const std::vector<Utils::Polygon2i> &polygons);
+                         const std::vector<entity::Polygon2i> &polygons);
 
-    std::vector<Utils::Polygon2i>
-    changingThePolygon(const std::vector<Utils::Polygon2d> &polygons,
-                       int rows,
-                       int cols);
+    std::vector<entity::Polygon2i>
+    changingThePolygons(const std::vector<entity::Polygon2d> &polygons,
+                        int rows,
+                        int cols);
 
-} // Render
+} // render
 
 #endif // TWITTERTRENDSOOPLAB_RENDER_H

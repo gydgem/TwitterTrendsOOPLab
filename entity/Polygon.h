@@ -9,7 +9,7 @@
 #include <vector>
 #include <opencv2/core/types.hpp>
 
-namespace Utils{
+namespace entity {
     using Polygon2i = std::vector<cv::Point2i>;
     using Polygon2d = std::vector<cv::Point2d>;
 }

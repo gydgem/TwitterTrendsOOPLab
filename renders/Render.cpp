@@ -1,20 +1,20 @@
 #include "Render.h"
 
-namespace Render {
+namespace render {
     void draw(cv::Mat &image,
-              const Utils::Polygon2i &polygon) {
+              const entity::Polygon2i &polygon) {
         std::vector<std::vector<cv::Point>> contours = {polygon};
-        cv::drawContours(image, contours, -1, cv::Scalar(0, 0, 0), 1,cv::LINE_AA);
+        cv::drawContours(image, contours, -1, cv::Scalar(105, 105, 105), 1, cv::LINE_AA);
     }
 
     void draw(cv::Mat &image,
-              const std::vector<Utils::Polygon2i> &polygons) {
-        cv::drawContours(image, polygons, -1, cv::Scalar(0, 0, 0), 1,cv::LINE_AA);
+              const std::vector<entity::Polygon2i> &polygons) {
+        cv::drawContours(image, polygons, -1, cv::Scalar(105, 105, 105), 1, cv::LINE_AA);
     }
 
     void drawInTheCenter(cv::Mat &image,
                          const std::string &name,
-                         const Utils::Polygon2i &polygon) {
+                         const entity::Polygon2i &polygon) {
         if (polygon.empty()) {
             return;
         }
@@ -39,8 +39,15 @@ namespace Render {
         centroidX *= areaFactor;
         centroidY *= areaFactor;
 
+        const double minAreaThreshold = 350.0;
+        if (std::abs(area) < minAreaThreshold) {
+            return;
+        }
+
+        double fontScale = 1.2 * std::sqrt(std::abs(area)) / 100.0;
+        fontScale = std::max(0.1, std::min(fontScale, 2.0));
+
         int fontFace = cv::FONT_HERSHEY_SIMPLEX;
-        double fontScale = 0.5;
         int thickness = 1;
         cv::Scalar color(0, 0, 0);
 
@@ -50,12 +57,12 @@ namespace Render {
         cv::Point textOrg(static_cast<int>(centroidX - textSize.width / 2),
                           static_cast<int>(centroidY + textSize.height / 2));
 
-        cv::putText(image, name, textOrg, fontFace, fontScale, color, thickness,cv::LINE_AA);
+        cv::putText(image, name, textOrg, fontFace, fontScale, color, thickness, cv::LINE_AA);
     }
 
     void drawInTheCenter(cv::Mat &image,
                          const std::vector<std::string> &names,
-                         const std::vector<Utils::Polygon2i> &polygons) {
+                         const std::vector<entity::Polygon2i> &polygons) {
         if (names.size() != polygons.size()) {
             return;
         }
@@ -65,10 +72,10 @@ namespace Render {
         }
     }
 
-    std::vector<Utils::Polygon2i>
-    changingThePolygon(const std::vector<Utils::Polygon2d> &polygons,
-                       int rows,
-                       int cols) {
+    std::vector<entity::Polygon2i>
+    changingThePolygons(const std::vector<entity::Polygon2d> &polygons,
+                        int rows,
+                        int cols) {
         if (polygons.empty()) {
             return {};
         }
@@ -91,18 +98,23 @@ namespace Render {
         double scaleY = (rows - 1) / height;
         double scale = std::min(scaleX, scaleY);
 
-        std::vector<Utils::Polygon2i> res;
+        std::vector<entity::Polygon2i> res;
         res.reserve(polygons.size());
 
         for (const auto &polygon: polygons) {
-            Utils::Polygon2i scaledPolygon;
+            entity::Polygon2i scaledPolygon;
             for (const auto &cord: polygon) {
-                int x = static_cast<int>((cord.x - minX) * scale);
-                int y = static_cast<int>((cord.y - minY) * scale);
+                double shiftedX = cord.x - minX;
+                double shiftedY = cord.y - minY;
+
+                int x = static_cast<int>(shiftedX * scale);
+                int y = static_cast<int>(shiftedY * scale);
+
                 scaledPolygon.emplace_back(x, y);
             }
             res.emplace_back(scaledPolygon);
         }
+
         return res;
     }
 }

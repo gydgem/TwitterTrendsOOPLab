@@ -11,12 +11,14 @@ add_executable(${PROJECT_NAME}
         main.cpp
         parsers/ParsersJSON.cpp
         parsers/ParsersJSON.h
-        parsers/State.cpp
-        parsers/State.h
-        utils/Polygon.h
+        entity/State.cpp
+        entity/State.h
+        entity/Polygon.h
         include/csv2.hpp
         renders/Render.cpp
         renders/Render.h
+        parsers/ParserTxt.cpp
+        parsers/ParserTxt.h
 )
 
 # OpenCV
@@ -30,15 +32,16 @@ else ()
 endif ()
 
 # Boost
-#find_package(Boost 1.87.0 REQUIRED COMPONENTS json)
-find_package(Boost REQUIRED COMPONENTS json)  # Указываем, что нужен boost::json
+find_package(Boost REQUIRED COMPONENTS json)
 
 if (Boost_FOUND)
     target_include_directories(${PROJECT_NAME} PRIVATE ${Boost_INCLUDE_DIRS})
-    target_link_libraries(${PROJECT_NAME} PRIVATE Boost::json)  # Линкуем boost::json
+    target_link_libraries(${PROJECT_NAME} PRIVATE Boost::json)
 else ()
     message(FATAL_ERROR "Boost not found")
 endif ()
 
-# Копирование ресурсов
-file(COPY resources DESTINATION ${CMAKE_BINARY_DIR}/resources)
+
+
+file(REMOVE_RECURSE ${CMAKE_BINARY_DIR}/resources)
+file(COPY resources DESTINATION ${CMAKE_BINARY_DIR}/)

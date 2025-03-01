@@ -18,7 +18,7 @@
 [33.82431823, -84.29353586]	_	2014-02-16 03:16:06	@Willro32 he declined the invite so he could hang with his family, I heard that earlier this week and I was sad
 [33.96914685, -84.34678438]	_	2014-02-16 03:16:09	Are three year olds allowed to watch Family Guy or
 [39.32723126, -82.09693076]	_	2014-02-16 03:16:10	facetiming the entire Bandsuh family 
-[33.84647598, -84.36229706]	_	2014-02-16 03:16:17	VP of Raydar Family @PlutoWorldwide @theraydarfamily ...   MasterMinds #model #actress #mytimeisnow http://t.co/nCtFPxSV7e
+[33.84647598, -84.36229706]	_	2014-02-16 03:16:17	VP of Raydar Family @PlutoWorldwide @theraydarfamily ...   MasterMinds #entity #actress #mytimeisnow http://t.co/nCtFPxSV7e
 [42.81023572, -83.02934647]	_	2014-02-16 03:16:22	I decided...all I really truly need is my family. Friends come and go. My man and kids are the only ones here to stay. :) blessed with them.
 [38.62153312, -76.92628311]	_	2014-02-16 03:16:35	wonder if anybody besides my family ACTUALLY cares about me
 [33.53781883, -112.34889893]	_	2014-02-16 03:16:36	I love my family  #nocensor #makesuscloser
@@ -86,7 +86,7 @@
 [40.3381617, -83.7589552]	_	2014-02-16 03:22:56	Our deepest sympathies, thoughts and prayers go out to the family of 21 yr old Johnny Honeycutt http://t.co/4WLAkteLln
 [30.62059285, -96.29842758]	_	2014-02-16 03:22:58	Family date night! #loveyall @ Grand Station Entertainment http://t.co/uwh48bZpO3
 [35.17282589, -102.38044556]	_	2014-02-16 03:22:59	Nr man fr shr fina snapchats r det svrt att hlla trarna inne #family  http://t.co/l3V797A8qs
-[38.0430641, -81.8052212]	_	2014-02-16 03:23:10	I'd like to announce Kirk Price as the new model of the Price family. John has stepped down due to obvious reasons http://t.co/BnwWQLxCCq
+[38.0430641, -81.8052212]	_	2014-02-16 03:23:10	I'd like to announce Kirk Price as the new entity of the Price family. John has stepped down due to obvious reasons http://t.co/BnwWQLxCCq
 [32.7150741, -117.160222]	_	2014-02-16 03:23:18	Apartment TherapyNominate Your Favorite Family-Friendly Cooking Blogs for The Homies Awards  The Homies 2014http://t.co/zhhQnQ7NII
 [33.9392142, -118.2613095]	_	2014-02-16 03:23:23	It's so weird how my bestfriends family is like mine though o;
 [34.03129675, -118.33033953]	_	2014-02-16 03:23:50	I'd like to welcome one of the newsest member to the iPhone family... @_Brandie28 
@@ -1858,7 +1858,7 @@
 [45.51693578, -122.85106471]	_	2014-02-16 07:44:05	It's hard to quit drinking when everyone in your family is an alcoholic.
 [34.31529193, -118.46978278]	_	2014-02-16 07:44:32	Nothing like family time 
 [43.66358686, -79.4019421]	_	2014-02-16 07:45:16	An amazing weekend to reconnect with the @loranscholar family and chatting with @queensprincipal http://t.co/ZHzv7ugAQf
-[40.72640489, -74.00551341]	_	2014-02-16 07:45:53	#greenhouse #nyc with my big cousins!! iamarianah @tyfox25 Yolanda and meena #model #family http://t.co/zJSEUbbJ6w
+[40.72640489, -74.00551341]	_	2014-02-16 07:45:53	#greenhouse #nyc with my big cousins!! iamarianah @tyfox25 Yolanda and meena #entity #family http://t.co/zJSEUbbJ6w
 [45.09990516, -93.30996595]	_	2014-02-16 07:45:58	Lmfao! My family is so inappropriate  
 [33.93020156, -118.07262239]	_	2014-02-16 07:46:05	I really dislike most of my family
 [30.45397206, -84.33060332]	_	2014-02-16 07:46:12	I love my family
