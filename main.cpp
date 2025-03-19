@@ -63,10 +63,14 @@ int main() {
     cv::Mat image = cv::Mat::zeros(1080, 1920, CV_8UC3);
     image.setTo(cv::Scalar(255, 255, 255)); // Белый фон
 
-    std::vector<entity::Polygon2i> tempPolygons = render::changingThePolygons(polygons, 1080, 1920);
+
+    double scale, minX, minY;
+    render::getScale(polygons, 1080, 1920, scale, minX, minY);
+
+    std::vector<entity::Polygon2i> tempPolygons = render::scalingThePolygons(polygons, scale, minX, minY);
 
     render::draw(image, tempPolygons);
-    render::drawInTheCenter(image, names, tempPolygons);
+    render::drawNamesInTheCenterPolygons(image, names, tempPolygons);
 
     cv::imshow("Polygons on Image", image);
     cv::waitKey(0);

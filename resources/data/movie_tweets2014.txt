@@ -794,7 +794,7 @@
 [42.32090017, -83.42952026]	_	2014-02-16 04:11:33	Second of movie of the night
 [35.3291013, -97.49331682]	_	2014-02-16 04:11:56	@KaitlynnMaddox: -movie night with this homie, @xo_AllieeB #straightthuggin.  http://t.co/aKh5454C8o
 [41.01575847, -92.38706804]	_	2014-02-16 04:11:58	This movie is so sick.
-[40.61685896, -73.91571681]	_	2014-02-16 04:12:00	That's like a racing movie doing a bridge jumping scene with the drawInTheCenter bridge down
+[40.61685896, -73.91571681]	_	2014-02-16 04:12:00	That's like a racing movie doing a bridge jumping scene with the drawNamesPolygonInTheCenter bridge down
 [36.60268313, -85.66432683]	_	2014-02-16 04:12:02	Endless love is the most beautiful perfect movie I have ever watched. #ikidyounot  
 [26.175326, -98.11992925]	_	2014-02-16 04:12:05	Watching 'The Secret Life of Walter Mitty' this movie is so awesome.
 [42.57501141, -87.86947616]	_	2014-02-16 04:12:11	Notting Hill is a perfect movie. That is all.

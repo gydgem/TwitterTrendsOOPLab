@@ -15,8 +15,8 @@ add_executable(${PROJECT_NAME}
         entity/State.h
         entity/Polygon.h
         include/csv2.hpp
-        renders/Render.cpp
         renders/Render.h
+        renders/Render.cpp
         parsers/ParserTxt.cpp
         parsers/ParserTxt.h
 )
@@ -24,23 +24,14 @@ add_executable(${PROJECT_NAME}
 # OpenCV
 find_package(OpenCV REQUIRED)
 
-if (OpenCV_FOUND)
-    target_include_directories(${PROJECT_NAME} PRIVATE ${OpenCV_INCLUDE_DIRS})
-    target_link_libraries(${PROJECT_NAME} PRIVATE ${OpenCV_LIBS})
-else ()
-    message(FATAL_ERROR "OpenCV not found")
-endif ()
+target_include_directories(${PROJECT_NAME} PRIVATE ${OpenCV_INCLUDE_DIRS})
+target_link_libraries(${PROJECT_NAME} PRIVATE ${OpenCV_LIBS})
 
 # Boost
 find_package(Boost REQUIRED COMPONENTS json)
 
-if (Boost_FOUND)
-    target_include_directories(${PROJECT_NAME} PRIVATE ${Boost_INCLUDE_DIRS})
-    target_link_libraries(${PROJECT_NAME} PRIVATE Boost::json)
-else ()
-    message(FATAL_ERROR "Boost not found")
-endif ()
-
+target_include_directories(${PROJECT_NAME} PRIVATE ${Boost_INCLUDE_DIRS})
+target_link_libraries(${PROJECT_NAME} PRIVATE Boost::json)
 
 
 file(REMOVE_RECURSE ${CMAKE_BINARY_DIR}/resources)

@@ -15,18 +15,32 @@ namespace render {
     void draw(cv::Mat &image,
               const std::vector<entity::Polygon2i> &polygons);
 
-    void drawInTheCenter(cv::Mat &image,
-                         const std::string &name,
-                         const entity::Polygon2i &polygon);
+    void drawNameInTheCenterPolygon(cv::Mat &image,
+                                    const std::string &name,
+                                    const entity::Polygon2i &polygon);
 
-    void drawInTheCenter(cv::Mat &image,
-                         const std::vector<std::string> &names,
-                         const std::vector<entity::Polygon2i> &polygons);
+    void drawNamesInTheCenterPolygons(cv::Mat &image,
+                                      const std::vector<std::string> &names,
+                                      const std::vector<entity::Polygon2i> &polygons);
+
+    void getScale(const std::vector<entity::Polygon2d> &polygons,
+                  int rows,
+                  int cols,
+                  double &scale,
+                  double &minX,
+                  double &minY);
 
     std::vector<entity::Polygon2i>
-    changingThePolygons(const std::vector<entity::Polygon2d> &polygons,
-                        int rows,
-                        int cols);
+    scalingThePolygons(const std::vector<entity::Polygon2d> &polygons,
+                       double scale,
+                       double minX,
+                       double minY);
+
+    std::vector<cv::Point2i>
+    scalingThePoints(const std::vector<cv::Point2d> &points,
+                     double scale,
+                     double minX,
+                     double minY);
 
 } // render
 
