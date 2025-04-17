@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.31)
+cmake_minimum_required(VERSION 3.22)
 set(CMAKE_CXX_STANDARD 20)
 
 project(TwitterTrendsOOPLab)
@@ -17,8 +17,23 @@ add_executable(${PROJECT_NAME}
         include/csv2.hpp
         renders/Render.h
         renders/Render.cpp
-        parsers/ParserTxt.cpp
-        parsers/ParserTxt.h
+        parsers/ParsersTxt.cpp
+        parsers/ParsersTxt.h
+        entity/Tweet.h
+        parsers/ParsersCSV.cpp
+        parsers/ParsersCSV.h
+        entity/Sentiments.h
+        handlers/ParserHandler.cpp
+        handlers/ParserHandler.h
+        handlers/DataProcessingHandler.cpp
+        handlers/DataProcessingHandler.h
+        algorithms/scalings.h
+        algorithms/scalings.cpp
+        data_structures/Bor.h
+        algorithms/sentiment_score.cpp
+        algorithms/sentiment_score.h
+        handlers/renderHandler.cpp
+        handlers/renderHandler.h
 )
 
 # OpenCV
@@ -34,5 +49,5 @@ target_include_directories(${PROJECT_NAME} PRIVATE ${Boost_INCLUDE_DIRS})
 target_link_libraries(${PROJECT_NAME} PRIVATE Boost::json)
 
 
-file(REMOVE_RECURSE ${CMAKE_BINARY_DIR}/resources)
+#file(REMOVE_RECURSE ${CMAKE_BINARY_DIR}/resources)
 file(COPY resources DESTINATION ${CMAKE_BINARY_DIR}/)

@@ -1,81 +1,53 @@
-#include <opencv2/opencv.hpp>
-#include <vector>
-#include <fstream>
-#include "entity/Polygon.h"
-#include "entity/State.h"
-#include "Parsers/ParsersJSON.h"
-#include "renders/Render.h"
+#include <filesystem>
+#include "handlers/ParserHandler.h"
+#include "handlers/DataProcessingHandler.h"
+#include "algorithms/sentiment_score.h"
+#include "handlers/renderHandler.h"
 
-std::ostream &operator<<(std::ostream &os, const cv::Point2d &point) {
-    os << "(" << point.x << ", " << point.y << ")";
-    return os;
-}
+namespace fs = std::filesystem;
 
-std::ostream &operator<<(std::ostream &os, const entity::Polygon2d &polygon) {
-    os << "[";
-    for (size_t i = 0; i < polygon.size(); ++i) {
-        os << polygon[i];
-        if (i < polygon.size() - 1) {
-            os << ", ";
+int main(int argc, char** argv) {
+    // Пути по умолчанию
+    std::string statesPath = "resources/data/states.json";
+    std::string tweetsPath = "resources/data/cali_tweets2014.txt"; // default
+    std::string sentimentsPath = "resources/data/sentiments.csv";
+
+    if(argc > 1) {
+        tweetsPath = argv[1];
+    }
+
+    try {
+        // Создаем папку для результатов если ее нет
+        fs::create_directory("res");
+
+        {
+            handler::ParserHandler parserHandler(statesPath, tweetsPath, sentimentsPath);
+            parserHandler.loadAll();
+            handler::DataProcessingHandler dataProcessingHandler(parserHandler.getStates(),
+                                                                 parserHandler.getTweets(),
+                                                                 parserHandler.getSentiments());
+            dataProcessingHandler.calculateAll();
+
+            handler::renderHandler renderHandler(dataProcessingHandler.getScaledStatesPolygons(),
+                                                 dataProcessingHandler.getScaledTweetsPoints(),
+                                                 dataProcessingHandler.getSentimentTweets(),
+                                                 dataProcessingHandler.getSentimentStates(),
+                                                 parserHandler.getStates());
+            renderHandler.drawAll();
+
+            fs::path inputPath(tweetsPath);
+            std::string outputName = "res/" + inputPath.stem().string() + ".png";
+            cv::imwrite(outputName, renderHandler.getImage());
+
+            cv::namedWindow("Twitter Sentiment Analysis", cv::WINDOW_AUTOSIZE);
+            cv::imshow("Twitter Sentiment Analysis", renderHandler.getImage());
+            cv::waitKey(0);
         }
     }
-    os << "]";
-    return os;
-}
-
-std::ostream &operator<<(std::ostream &os, const entity::State &state) {
-    os << "State: " << state.name << "\n";
-    os << "Polygons:\n";
-    for (size_t i = 0; i < state.polygons.size(); ++i) {
-        os << "  Polygon2d " << i + 1 << ": " << state.polygons[i] << "\n";
+    catch (const std::exception &e) {
+        std::cerr << "Error: " << e.what() << "\n";
+        return 1;
     }
-    return os;
-}
-
-std::string readFileToString(const std::string &filePath) {
-    std::ifstream file(filePath, std::ios::in | std::ios::binary);
-    if (!file) {
-        throw std::runtime_error("Unable to open file: " + filePath);
-    }
-    std::ostringstream buffer;
-    buffer << file.rdbuf();
-    return buffer.str();
-}
-
-int main() {
-    auto str = readFileToString("resources/data/states.json");
-
-    auto states = parser::json::statesParse(str);
-
-    std::vector<entity::Polygon2d> polygons;
-    std::vector<std::string> names;
-    for (auto &state: states) {
-        for (auto &polygon: state.polygons) {
-            for (auto &point: polygon) {
-                point.y *= -1;
-            }
-
-            polygons.emplace_back(polygon);
-            names.emplace_back(state.name);
-        }
-    }
-
-    cv::Mat image = cv::Mat::zeros(1080, 1920, CV_8UC3);
-    image.setTo(cv::Scalar(255, 255, 255)); // Белый фон
-
-
-    double scale, minX, minY;
-    render::getScale(polygons, 1080, 1920, scale, minX, minY);
-
-    std::vector<entity::Polygon2i> tempPolygons = render::scalingThePolygons(polygons, scale, minX, minY);
-
-    render::draw(image, tempPolygons);
-    render::drawNamesInTheCenterPolygons(image, names, tempPolygons);
-
-    cv::imshow("Polygons on Image", image);
-    cv::waitKey(0);
-
-    cv::imwrite("output.png", image);
 
     return 0;
 }

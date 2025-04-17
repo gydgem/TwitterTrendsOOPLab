@@ -2,19 +2,41 @@
 
 namespace render {
     void draw(cv::Mat &image,
-              const entity::Polygon2i &polygon) {
+              const entity::Polygon2i &polygon,
+              const cv::Scalar &fillColor,
+              const cv::Scalar &borderColor,
+              int borderThickness) {
         std::vector<std::vector<cv::Point>> contours = {polygon};
-        cv::drawContours(image, contours, -1, cv::Scalar(105, 105, 105), 1, cv::LINE_AA);
+
+        if (fillColor[0] >= 0) {
+            cv::drawContours(image, contours, -1, fillColor, cv::FILLED);
+        }
+
+        cv::drawContours(image, contours, -1, borderColor, borderThickness, cv::LINE_AA);
     }
 
     void draw(cv::Mat &image,
-              const std::vector<entity::Polygon2i> &polygons) {
-        cv::drawContours(image, polygons, -1, cv::Scalar(105, 105, 105), 1, cv::LINE_AA);
+              const std::vector<entity::Polygon2i> &polygons,
+              const cv::Scalar &fillColor,
+              const cv::Scalar &borderColor,
+              int borderThickness) {
+        if (polygons.empty()) {
+            return;
+        }
+
+
+        if (fillColor[0] >= 0) {
+            cv::drawContours(image, polygons, -1, fillColor, cv::FILLED);
+        }
+
+        cv::drawContours(image, polygons, -1, borderColor, borderThickness, cv::LINE_AA);
     }
 
     void drawNameInTheCenterPolygon(cv::Mat &image,
-                             const std::string &name,
-                             const entity::Polygon2i &polygon) {
+                                    const std::string &name,
+                                    const entity::Polygon2i &polygon,
+                                    const cv::Scalar &textColor,
+                                    const cv::Scalar &bgColor) {
         if (polygon.empty()) {
             return;
         }
@@ -35,6 +57,10 @@ namespace render {
         }
 
         area /= 2.0;
+        if (std::abs(area) < 1e-6) {
+            return;
+        }
+
         double areaFactor = 1.0 / (6.0 * area);
         centroidX *= areaFactor;
         centroidY *= areaFactor;
@@ -49,90 +75,66 @@ namespace render {
 
         int fontFace = cv::FONT_HERSHEY_SIMPLEX;
         int thickness = 1;
-        cv::Scalar color(0, 0, 0);
-
         int baseline = 0;
-        cv::Size textSize = cv::getTextSize(name, fontFace, fontScale, thickness, &baseline);
 
+        cv::Size textSize = cv::getTextSize(name, fontFace, fontScale, thickness, &baseline);
         cv::Point textOrg(static_cast<int>(centroidX - textSize.width / 2),
                           static_cast<int>(centroidY + textSize.height / 2));
 
-        cv::putText(image, name, textOrg, fontFace, fontScale, color, thickness, cv::LINE_AA);
+        // Рисуем фон, если задан
+        if (bgColor != cv::Scalar(-1, -1, -1)) {
+            cv::Rect bgRect(textOrg.x,
+                            textOrg.y - textSize.height,
+                            textSize.width,
+                            textSize.height + baseline);
+            cv::rectangle(image, bgRect, bgColor, cv::FILLED);
+        }
+
+        cv::putText(image, name, textOrg, fontFace, fontScale, textColor, thickness, cv::LINE_AA);
     }
 
     void drawNamesInTheCenterPolygons(cv::Mat &image,
-                                      const std::vector<std::string> &names,
-                                      const std::vector<entity::Polygon2i> &polygons) {
-        if (names.size() != polygons.size()) {
-            return;
-        }
+                                      const std::string &name,
+                                      const std::vector<entity::Polygon2i> &polygons,
+                                      const cv::Scalar &textColor,
+                                      const cv::Scalar &bgColor) {
 
-        for (int i = 0; i < names.size(); i++) {
-            drawNameInTheCenterPolygon(image, names[i], polygons[i]);
+        for (int i = 0; i < polygons.size(); i++) {
+            drawNameInTheCenterPolygon(image, name, polygons[i], textColor, bgColor);
         }
     }
 
-    void getScale(const std::vector<entity::Polygon2d> &polygons,
-                  int rows,
-                  int cols,
-                  double &scale,
-                  double &minX,
-                  double &minY) {
-        if (polygons.empty()) {
-            scale = 1.0;
-            minX = 0.0;
-            minY = 0.0;
-            return;
+    void draw(cv::Mat &image,
+              const std::vector<cv::Point2i> &points,
+              const std::vector<cv::Scalar> &fillColors,
+              const cv::Scalar &borderColor,
+              int borderThickness) {
+
+        const int pointRadius = 5;
+        const bool hasIndividualColors = !fillColors.empty();
+
+        if (hasIndividualColors && fillColors.size() != points.size()) {
+            throw std::invalid_argument("Number of colors must match number of points");
         }
 
-        minX = polygons[0][0].x;
-        double maxX = polygons[0][0].x;
-        minY = polygons[0][0].y;
-        double maxY = polygons[0][0].y;
+        for (size_t i = 0; i < points.size(); ++i) {
+            const cv::Scalar &fillColor = hasIndividualColors
+                                          ? fillColors[i]
+                                          : borderColor;
 
-        for (const auto &polygon : polygons) {
-            for (const auto &point : polygon) {
-                minX = std::min(minX, point.x);
-                maxX = std::max(maxX, point.x);
-                minY = std::min(minY, point.y);
-                maxY = std::max(maxY, point.y);
+            cv::circle(image,
+                       points[i],
+                       pointRadius,
+                       fillColor,
+                       cv::FILLED);
+
+            if (borderThickness > 0) {
+                cv::circle(image,
+                           points[i],
+                           pointRadius,
+                           borderColor,
+                           borderThickness);
             }
         }
-
-        double width = maxX - minX;
-        double height = maxY - minY;
-
-        double scaleX = (cols - 1) / (width != 0 ? width : 1);
-        double scaleY = (rows - 1) / (height != 0 ? height : 1);
-        scale = std::min(scaleX, scaleY);
-    }
-
-    std::vector<entity::Polygon2i>
-    scalingThePolygons(const std::vector<entity::Polygon2d> &polygons,
-                       double scale,
-                       double minX,
-                       double minY) {
-        std::vector<entity::Polygon2i> res;
-        res.reserve(polygons.size());
-        for (const auto &polygon : polygons) {
-            auto scaledPoints = scalingThePoints(polygon, scale, minX, minY);
-            res.emplace_back(scaledPoints);
-        }
-        return res;
-    }
-
-    std::vector<cv::Point2i>
-    scalingThePoints(const std::vector<cv::Point2d> &points,
-                     double scale,
-                     double minX,
-                     double minY) {
-        std::vector<cv::Point2i> scaledPoints;
-        scaledPoints.reserve(points.size());
-        for (const auto &p : points) {
-            int x = static_cast<int>((p.x - minX) * scale);
-            int y = static_cast<int>((p.y - minY) * scale);
-            scaledPoints.emplace_back(x, y);
-        }
-        return scaledPoints;
     }
 }
