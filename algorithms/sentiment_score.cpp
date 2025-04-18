@@ -98,8 +98,10 @@ namespace algorithm {
 
             for (size_t i = 0; i < tweets.size(); ++i) {
                 if (isTweetInState(tweets[i], state)) {
-                    total += sentimentTweets[i].value_or(0.0);
-                    ++count;
+                    if (sentimentTweets[i].has_value()){
+                        total += sentimentTweets[i].value_or(0.0);
+                        ++count;
+                    }
                 }
             }
 

@@ -7,9 +7,8 @@
 namespace fs = std::filesystem;
 
 int main(int argc, char** argv) {
-    // Пути по умолчанию
     std::string statesPath = "resources/data/states.json";
-    std::string tweetsPath = "resources/data/cali_tweets2014.txt"; // default
+    std::string tweetsPath = "resources/data/football_tweets2014.txt"; //default
     std::string sentimentsPath = "resources/data/sentiments.csv";
 
     if(argc > 1) {
@@ -17,7 +16,6 @@ int main(int argc, char** argv) {
     }
 
     try {
-        // Создаем папку для результатов если ее нет
         fs::create_directory("res");
 
         {

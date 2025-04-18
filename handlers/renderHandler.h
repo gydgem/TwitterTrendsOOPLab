@@ -44,7 +44,7 @@ namespace handler {
                                  double max_pos,
                                  double epsilon) const;
 
-        [[nodiscard]] std::pair<double, double> calculateSentimentRange() const;
+        std::pair<double, double> calculateRange(const std::vector<std::optional<double>> &values) const;
     };
 
 } // handler
